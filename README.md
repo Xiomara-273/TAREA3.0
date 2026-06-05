@@ -2,43 +2,40 @@
 
 ## 👤 Información del Estudiante
 * **Nombre:** Xiomara Scarleth Méndez Arce
-* **Carrera:** Tecnología en Desarrollo de Software
-* **Asignatura:** DevOps
-* **Nivel / Curso:** 5to Semestre - Paralelo "5B"
-* **Aplicación Entregable:** `ejercicio:3.0.0` (Sistema de Gestión de Tareas Atómicas)
+* **Semestre:** 5to Semestre
+* **Paralelo:** "5B"
+* **Asignatura:** DevOps / Despliegue de Aplicaciones
 
 ---
 
-## 🚀 Descripción del Proyecto
-Este repositorio contiene una aplicación modular desarrollada en Python que simula una lista de tareas (`TodoList`), diseñada específicamente para demostrar la implementación práctica de un pipeline de **Integración Continua (CI)** y **Entrega Continua (CD)**. 
-
-El proyecto integra pruebas unitarias automatizadas con `pytest`, empaquetamiento inmutable mediante contenedores **Docker** y la automatización completa del ciclo de vida del software usando **GitHub Actions**, publicando el artefacto final en el **GitHub Container Registry (GHCR)**.
+## 📝 Descripción del Proyecto
+Este proyecto consiste en una aplicación web interactiva de **Lista de Tareas (To-Do List)** desarrollada en Python utilizando el microframework **Flask**. El objetivo principal de la práctica es implementar un pipeline completo de Integración y Despliegue Continuo (CI/CD) automatizado mediante **GitHub Actions** y la contenedorización de la aplicación utilizando **Docker**.
 
 ---
 
-## 🛠️ Arquitectura de Automatización (Flujo CI/CD)
+## ⚙️ Explicación del Funcionamiento Automatizado (CI/CD)
 
-El flujo de trabajo configurado en `.github/workflows/python-application.yml` se dispara automáticamente ante cualquier evento de `push` o `pull_request` en la rama `main`, ejecutando los siguientes bloques de control en un servidor virtual efímero (`ubuntu-latest`):
+El archivo de configuración `.github/workflows/python-application.yml` gestiona todo el ciclo de vida del código de manera automática cada vez que se realiza un `git push` a la rama `main`. El funcionamiento se divide en las siguientes etapas clave:
 
-1. **Checkout:** Descarga el código fuente actualizado del repositorio.
-2. **Setup Environment:** Inicializa y configura el entorno con Python 3.10.
-3. **Install Dependencies:** Instala las herramientas necesarias especificadas en `requirements.txt` (incluyendo `pytest`).
-4. **Automated Testing:** Ejecuta las pruebas unitarias para validar que la lógica del negocio no se haya roto.
-5. **Execution Verification:** Corre la aplicación en el entorno de pruebas para verificar su salida por consola.
-6. **Simulation Stage:** Simula la fase de validación de despliegue continuo (*Staging environment*).
-7. **Registry Authentication:** Inicia sesión de forma segura en `ghcr.io` utilizando los permisos criptográficos nativos (`GITHUB_TOKEN`).
-8. **Docker Build & Push:** Construye la imagen del contenedor basándose en el `Dockerfile` y la publica en la nube con la etiqueta oficial requerida.
+1. **Entorno de Pruebas (CI):**
+   * Se levanta un servidor virtual limpio basado en `ubuntu-latest`.
+   * Se instala la versión de **Python 3.10** y se configuran las dependencias del archivo `requirements.txt` (Flask y Pytest).
+   * Se ejecutan de forma aislada las pruebas unitarias automatizadas con **Pytest** para verificar que el servidor web responda correctamente (Código HTTP 200 OK) y que no existan errores de sintaxis en `app.py`.
+
+2. **Empaquetado y Publicación (CD):**
+   * Una vez que las pruebas pasan con éxito (**Check Verde ✅**), el pipeline se autentica de forma segura en el registro de contenedores de GitHub (**GHCR**).
+   * Se lee el archivo `Dockerfile` para empaquetar la aplicación web en una imagen ligera de Docker.
+   * Finalmente, la imagen se publica automáticamente en GitHub Packages bajo la nomenclatura oficial: `ghcr.io/xiomara-273/ejercicio:3.0.0`.
 
 ---
 
-## 📂 Estructura del Repositorio
-```text
-Tarea3.0/
-├── .github/
-│   └── workflows/
-│       └── python-application.yml  # Cerebro de automatización CI/CD
-├── app.py                         # Código fuente de la aplicación (Lista de tareas)
-├── test_app.py                    # Suite de pruebas unitarias automatizadas
-├── requirements.txt               # Manifiesto de dependencias de Python
-├── Dockerfile                     # Instrucciones de compilación del contenedor Docker
-└── README.md                      # Documentación técnica del proyecto (Este archivo)
+## 🐳 Instrucciones de Ejecución Local (Docker)
+
+Para descargar y ejecutar esta aplicación web interactiva en cualquier computadora local que disponga de Docker, ejecute los siguientes comandos en su terminal:
+
+```bash
+# 1. Descargar la imagen pública desde el registro de GitHub
+docker pull ghcr.io/xiomara-273/ejercicio:3.0.0
+
+# 2. Desplegar el contenedor mapeando el puerto web
+docker run -d -p 5000:5000 --name mi_app_web ghcr.io/xiomara-273/ejercicio:3.0.0
