@@ -1,13 +1,13 @@
-from app import TodoList
+from app import app
 
-def test_add_task_successfully():
-    # Instanciar la clase de la aplicación
-    todo = TodoList()
+def test_homepage_loads_successfully():
+    # Crear un cliente de pruebas virtual para simular el navegador
+    client = app.test_client()
     
-    # Ejecutar la acción de prueba
-    result = todo.add_task("Aprender Docker y CI/CD")
+    # Hacer una petición a la página principal
+    response = client.get('/')
     
-    # Validaciones obligatorias (Asserts)
-    assert result is True
-    assert len(todo.get_tasks()) == 1
-    assert todo.get_tasks()[0] == "Aprender Docker y CI/CD"
+    # Validar que el servidor web responda con éxito (Código 200 OK)
+    assert response.status_code == 200
+    # Validar que el HTML contenga el título correcto
+    assert b"Lista de Tareas" in response.data
