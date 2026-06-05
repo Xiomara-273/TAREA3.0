@@ -43,7 +43,7 @@ HTML_TEMPLATE = """
 def index():
     return render_template_string(HTML_TEMPLATE, tasks=tasks)
 
-@app.route('/add', method=['POST'])
+@app.route('/add', methods=['POST'])
 def add_task():
     task = request.form.get('task')
     if task:

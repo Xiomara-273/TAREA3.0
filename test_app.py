@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Forzar a Python a buscar el archivo app.py en la raíz actual
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from app import app
 
 def test_homepage_loads_successfully():
@@ -9,5 +15,5 @@ def test_homepage_loads_successfully():
     
     # Validar que el servidor web responda con éxito (Código 200 OK)
     assert response.status_code == 200
-    # Validar que el HTML contenga el título correcto
+    # Validar que el HTML contenga el título de tu lista
     assert b"Lista de Tareas" in response.data
