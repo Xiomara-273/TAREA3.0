@@ -10,6 +10,7 @@ on:
 permissions:
   contents: read
   packages: write
+  id-token: write
 
 jobs:
   build-and-test:
@@ -56,11 +57,11 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    # 8. Construir y publicar la imagen Docker con la nomenclatura oficial
+   # 8. Construir y publicar la imagen Docker con tu usuario fijo
     - name: Construir y Publicar Imagen Docker
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
         tags: |
-          ghcr.io/${{ github.actor }}/ejercicio:3.0.0
+          ghcr.io/xiomara-273/ejercicio:3.0.0
