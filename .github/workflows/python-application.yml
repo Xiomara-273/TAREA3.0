@@ -33,15 +33,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # 4. Ejecutar pruebas automatizadas
-    - name: Ejecutar pruebas automatizadas (pytest)
+   # 4. Ejecutar SOLO las pruebas unitarias (Pytest sabe cómo probar Flask sin encender el servidor)
+    - name: Test with pytest
       run: |
-        pytest test_app.py -v
+        python -m pytest test_app.py -v
 
-    # 5. Ejecutar la aplicación
-    - name: Ejecutar la aplicacion en el Runner
+    # 5. Opcional: Si la guía te pide verificar que el archivo compile, usa este comando seguro que no se cuelga:
+    - name: Verify app syntax
       run: |
-        python app.py
+        python -m py_compile app.py
 
     # 6. Simular una fase de despliegue
     - name: Simular fase de despliegue continuo
